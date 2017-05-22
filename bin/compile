@@ -35,9 +35,11 @@ fi
 echo "-----> Running SSH private key setup"
 # The .ssh needs to be located in the home directory which is different to the
 # home directory of the built machine. The symlink resolves the issue.
+# encode the SSH_KEY with echo -n $(cat ~/.ssh/id_rsa | base64 -w0)
 mkdir "$1/.ssh"
 ln -s "$1/.ssh" "$HOME/.ssh"
-echo "$SSH_PRIVATE_KEY" | base64 --decode > "$HOME/.ssh/id_rsa"
+echo "$SSH_PRIVATE_KEY" | base64 --decode -w0 > "$HOME/.ssh/id_rsa"
+chmod 0600 "$HOME/.ssh/id_rsa"
 
 for hostname in "${SSH_HOSTS_ARRAY[@]}"; do
     echo "Ading host ${hostname} to the allowed hosts config"
