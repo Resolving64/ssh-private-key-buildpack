@@ -38,7 +38,12 @@ echo "-----> Running SSH private key setup"
 # encode the SSH_KEY with echo -n $(cat ~/.ssh/id_rsa | base64 -w0)
 mkdir "$1/.ssh"
 ln -s "$1/.ssh" "$HOME/.ssh"
-echo "$SSH_PRIVATE_KEY" | base64 --decode -w0 > "$HOME/.ssh/id_rsa"
+
+echo "-----> Dumping key"
+echo $SSH_KEY
+echo $SSH_PRIVATE_KEY
+echo "-----> Writing key"
+echo -n "$SSH_PRIVATE_KEY" | base64 --decode -w0 > "$HOME/.ssh/id_rsa"
 chmod 0600 "$HOME/.ssh/id_rsa"
 
 for hostname in "${SSH_HOSTS_ARRAY[@]}"; do
