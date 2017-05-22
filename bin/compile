@@ -42,11 +42,9 @@ ln -s "$1/.ssh" "$HOME/.ssh"
 echo "-----> Writing key"
 echo -n "$SSH_PRIVATE_KEY" | base64 --decode -w0 > "$HOME/.ssh/id_rsa"
 chmod 0600 "$HOME/.ssh/id_rsa"
-echo "-----> Dumping key"
-cat $HOME/.ssh/id_rsa
 
 for hostname in "${SSH_HOSTS_ARRAY[@]}"; do
-    echo "Ading host ${hostname} to the allowed hosts config"
+    echo "Adding host ${hostname} to the allowed hosts config"
 	ssh -oStrictHostKeyChecking=no -T $hostname 2>&1 | indent
 done
 exit 0
