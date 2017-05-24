@@ -19,7 +19,12 @@ then
     echo "-----> Proceeding to exit the build successfully."
     exit 0
 fi
+
 SSH_PRIVATE_KEY="$(cat $ENV_DIR/SSH_KEY)"
+# Remove the SSH key from environment variables
+rm $ENV_DIR/SSH_KEY
+unset -v SSH_KEY
+
 # Check for user-provided SSH_HOSTS. Default is github.org, but the user can provide a and environment
 # varibable SSH_HOSTS that is a comma-delimited string of hosts to associate the SSH key with
 if [[ ( -e "${ENV_DIR}/SSH_HOSTS" ) && ( "$(cat $ENV_DIR/SSH_HOSTS)" != "" ) ]]; then
